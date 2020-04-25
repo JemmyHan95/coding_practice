@@ -20,7 +20,6 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends Abstract
         return x.color;
     }
 
-    @Override
     public int size(Node h) {
         return h.N;
     }
@@ -61,7 +60,7 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends Abstract
 
     private Node put(Node h, Key key, Value value) {
         if (h == null) {
-            return new Node(key, val, 1, true);
+            return new Node(key, value, 1, true);
         }
 
         int cmp = h.key.compareTo(key);
@@ -70,7 +69,7 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends Abstract
         } else if (cmp > 0) {
             h.left = put(h.left, key, value);
         } else {
-            h.val = val;
+            h.value = value;
         }
 
         if (isRed(h.right) && !isRed(h.left)) {
