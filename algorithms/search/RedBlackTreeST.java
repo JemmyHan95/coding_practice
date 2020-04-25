@@ -1,4 +1,4 @@
-public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends AbstractOrderedSymbolTable<Key, Value> {
+public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySearchTreeST<Key, Value> {
     private class Node {
         Key key;
         Value value;
@@ -85,5 +85,20 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends Abstract
         h.N = size(h.left) + size(h.right) + 1;
 
         return h;
+    }
+
+    @Override
+    public void delete(Key key) {
+        // TODO
+    }
+
+    @Override
+    public void deleteMax() {
+        // TODO
+    }
+
+    @Override
+    public void deleteMin() {
+        // TODO
     }
 }
