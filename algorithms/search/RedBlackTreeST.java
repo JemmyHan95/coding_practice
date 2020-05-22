@@ -99,6 +99,45 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySe
 
     @Override
     public void deleteMin() {
-        // TODO
+        if (!isRed(root.left) && !isRed(root.right)) {
+            root.color = true;
+        }
+        root = deleteMin(root);
+        if (!isEmpty()) {
+            root.color = false;
+        }
+    }
+
+    private Node deleteMin(Node h) {
+        if (h.left == null) {
+            return null;
+        }
+        if (!isRed(h.left) && !isRed(h.left.left)) {
+            h = moveRedLeft(h);
+        }
+        h.left = deleteMin(h.left);
+        return balance(h);
+    }
+    
+    private Node moveRedLeft(Node h) {
+        flipColor(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+        }
+        return h;
+    }
+
+    private Node balance(Node h) {
+        if (isRed(h.right)) {
+            h = rotateLeft(h);
+        }
+        if (isRed(h.left) && isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+
+        h.N = size(h.left) + size(h.right) + 1;
+
+        return h;
     }
 }
