@@ -94,7 +94,36 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySe
 
     @Override
     public void deleteMax() {
-        // TODO
+        if (!isRed(root.left) && !isRed(root.right)) {
+            root.color = true;
+        }
+        root = deleteMax(root);
+        if (!isEmpty()) {
+            root.color = false;
+        }
+    }
+
+    private Node deleteMax(Node h) {
+        if (isRed(h.left)) {
+            h = rotateRight(h);
+        }
+        if (h.right == null) {
+            return null;
+        }
+        if (!isRed(h.right) && !isRed(h.right.left)) {
+            h = moveRedRight(h);
+        }
+        h.right = deleteMax(h.right);
+
+        return balance(h);
+    }
+
+    private Node moveRedRight(Node h) {
+        flipColor(h);
+        if (!isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+        return h;
     }
 
     @Override
