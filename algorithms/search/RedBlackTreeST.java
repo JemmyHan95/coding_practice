@@ -52,6 +52,41 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySe
         h.right.color = false;
     }
 
+    private Value get(Node n, Key key) {
+        if (n == null) {
+            return null;
+        }
+        int cmp = key.compareTo(n.key);
+        if (cmp == 0) {
+            return n.value;
+        } else if (cmp < 0) {
+            return get(n.left, key);
+        } else {
+            return get(n.right, key);
+        }
+    }
+
+    private Node balance(Node h) {
+        if (isRed(h.right)) {
+            h = rotateLeft(h);
+        }
+        if (isRed(h.left) && isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+
+        h.N = size(h.left) + size(h.right) + 1;
+
+        return h;
+    }
+
+    private Node min(Node node) {
+        if (node.left == null) {
+            return node;
+        } else {
+            return min(node.left);
+        }
+    }
+
     @Override
     public void put(Key key, Value value) {
         root = put(root, key, value);
@@ -89,7 +124,41 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySe
 
     @Override
     public void delete(Key key) {
-        // TODO
+        if (!isRed(root.left) && !isRed(root.right)) {
+            root.color = true;
+        }
+        root = delete(root, key);
+        if (!isEmpty()) {
+            root.color = false;
+        }
+    }
+
+    private Node delete(Node h, Key key) {
+        if (key.compareTo(h.key) < 0) {
+            if (!isRed(h.left) && !isRed(h.left.left)) {
+                h = moveRedLeft(h);
+            }
+            h.left = delete(h.left, key);
+        } else {
+            if (isRed(h.left)) {
+                h = rotateRight(h);
+            }
+            if (key.compareTo(h.key) == 0 && (h.right == null)) {
+                return null;
+            }
+            if (!isRed(h.right) && !isRed(h.right.left)) {
+                h = moveRedRight(h);
+            }
+            if (key.compareTo(h.key) == 0) {
+                h.value = get(h.right, min(h.right).key);
+                h.key = min(h.right).key;
+                h.right = deleteMin(h.right);
+            } else {
+                h.right = delete(h.right, key);
+            }
+        }
+
+        return balance(h);
     }
 
     @Override
@@ -157,16 +226,4 @@ public class RedBlackTreeST<Key extends Comparable<Key>, Value> extends BinarySe
         return h;
     }
 
-    private Node balance(Node h) {
-        if (isRed(h.right)) {
-            h = rotateLeft(h);
-        }
-        if (isRed(h.left) && isRed(h.left.left)) {
-            h = rotateRight(h);
-        }
-
-        h.N = size(h.left) + size(h.right) + 1;
-
-        return h;
-    }
 }
