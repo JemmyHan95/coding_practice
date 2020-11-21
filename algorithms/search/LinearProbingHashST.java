@@ -50,7 +50,7 @@ public class LinearProbingHashST<Key, Value> extends AbstractSymbolTable<Key, Va
             return;
         }
         int i = hash(key);
-        while (!Key.equals(keys[i])) {
+        while (!key.equals(keys[i])) {
             i = (i + 1) % M;
         }
         keys[i] = null;
@@ -71,5 +71,15 @@ public class LinearProbingHashST<Key, Value> extends AbstractSymbolTable<Key, Va
         if (N > 0 && N == M / 8) {
             resize(M / 2);
         }
+    }
+
+    @Override
+    public Iterable<Key> keys() {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return keys.length;
     }
 }

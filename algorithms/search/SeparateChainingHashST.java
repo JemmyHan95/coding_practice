@@ -39,4 +39,9 @@ public class SeparateChainingHashST<Key, Value> extends AbstractSymbolTable<Key,
     public Iterable<Key> keys() {
         return null;
     }
+
+    @Override
+    public int size() {
+        return st.length;
+    }
 }
