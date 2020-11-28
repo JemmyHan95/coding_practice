@@ -4,6 +4,7 @@ public class LinearProbingHashST<Key, Value> extends AbstractSymbolTable<Key, Va
     private Key[] keys;
     private Value[] values;
 
+    @SuppressWarnings("unchecked")
     public LinearProbingHashST() {
         keys = (Key[]) new Object[M];
         values = (Value[]) new Object[M];

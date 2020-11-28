@@ -7,12 +7,13 @@ public class SeparateChainingHashST<Key, Value> extends AbstractSymbolTable<Key,
         this(997);
     }
 
+    @SuppressWarnings("unchecked")
     public SeparateChainingHashST(int M) {
         this.M = M;
         st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[M];
 
         for (int i = 0; i < M; i++) {
-            st[i] = new SequentialSearchST();
+            st[i] = new SequentialSearchST<Key, Value>();
         }
     }
 
