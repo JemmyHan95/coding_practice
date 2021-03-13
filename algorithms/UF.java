@@ -29,7 +29,7 @@ public class UF {
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];
         }
-        count--;
+        this.count--;
     }
 
     public int find(int p) {
@@ -42,8 +42,6 @@ public class UF {
     }
 
     public boolean connected(int p, int q) {
-        int rootP = find(p);
-        int rootQ = find(q);
-        return rootP == rootQ;
+        return find(p) == find(q);
     }
 }
