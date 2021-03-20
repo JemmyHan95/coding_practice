@@ -57,7 +57,7 @@ public class LFUCache {
         // Handle origin freq queue
         if (freqToKeys.get(freq).isEmpty()) {
             freqToKeys.remove(freq);
-            if (this.minFreq = freq) {
+            if (this.minFreq == freq) {
                 this.minFreq = freq + 1;
             }
         }
@@ -65,13 +65,15 @@ public class LFUCache {
 
     private void removeLeastFreq() {
         LinkedHashSet<Integer> keyList = freqToKeys.get(this.minFreq);
-        int deletedKey = keyList.iterator().next();
-        keyList.remove(deletedKey);
-        if (keyList.isEmpty()) {
+        if (keyList != null && !keyList.isEmpty()) {
+            int deletedKey = keyList.iterator().next();
+            keyList.remove(deletedKey);
+            keyToVal.remove(deletedKey);
+            keyToFreq.remove(deletedKey);
+        }
+        if (keyList == null || keyList.isEmpty()) {
             freqToKeys.remove(this.minFreq);
             // Note: no need to update minFreq here, guess why
         }
-        keyToVal.remove(deletedKey);
-        keyToFreq.remove(deletedKey);
     }
 }
